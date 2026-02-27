@@ -8,27 +8,81 @@
 <style>
 body {
     margin: 0;
-    background-color: black;
+    background-color: #1a1a1a;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
 }
 
 .video-container {
     position: relative;
     width: 90%;
     max-width: 900px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border-radius: 15px;
+    overflow: hidden;
 }
 
 video {
     width: 100%;
     height: auto;
     display: block;
-    border-radius: 12px;
 }
 
+/* מסך סיום צבעוני ומרהיב */
+.ending-screen {
+    position: absolute;
+    inset: 0;
+    /* רקע צבעוני הדרגתי */
+    background: linear-gradient(45deg, #ff00cc, #3333ff, #24ff72, #ff6600);
+    background-size: 400% 400%;
+    animation: gradientBG 10s ease infinite;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.ending-content h1 {
+    font-size: 70px;
+    margin: 0;
+    text-shadow: 4px 4px 15px rgba(0,0,0,0.3);
+    animation: bounce 2s infinite;
+}
+
+.ending-content p {
+    font-size: 40px;
+    margin: 10px 0;
+}
+
+/* הקרדיט למטה */
+.credit {
+    position: absolute;
+    bottom: 30px;
+    font-size: 24px;
+    font-weight: bold;
+    opacity: 0.9;
+    border-top: 2px solid rgba(255,255,255,0.3);
+    padding-top: 10px;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+/* כיתוב בזמן הוידאו */
 .overlay-text {
     position: absolute;
     top: 50%;
@@ -41,45 +95,9 @@ video {
 }
 
 .overlay-text .main {
-    font-size: 64px;
+    font-size: 60px;
     font-weight: bold;
     text-shadow: 3px 3px 12px rgba(0,0,0,0.8);
-}
-
-/* מסך סיום צבעוני */
-.ending-screen {
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.85);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    border-radius: 12px;
-}
-
-/* אפקט טקסט צבעוני זז */
-.colorful-text {
-    background: linear-gradient(to left, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff);
-    background-size: 400% 400%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: rainbow 5s ease infinite;
-    font-size: 70px;
-    font-weight: bold;
-    margin: 0;
-}
-
-@keyframes rainbow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-.ending-screen p {
-    font-size: 36px;
-    margin-top: 20px;
-    color: white;
 }
 </style>
 </head>
@@ -97,10 +115,11 @@ video {
     </div>
 
     <div class="ending-screen" id="ending">
-        <div>
-            <h1 class="colorful-text">חג שמח!</h1>
+        <div class="ending-content">
+            <h1>חג שמח!</h1>
             <p>נתראה בשמחות 🎭</p>
         </div>
+        <div class="credit">עריכה: מילכה ברקו גרש</div>
     </div>
 </div>
 
@@ -110,20 +129,18 @@ const greeting = document.getElementById("greeting");
 const ending = document.getElementById("ending");
 
 let playCount = 0;
-const maxPlays = 3; // הגדרה ל-3 פעמים
 
 video.addEventListener("play", () => {
     greeting.style.display = "block";
-    // מחזיר את הברכה לאמצע אם היא הוסתרה
 });
 
 video.addEventListener("ended", () => {
     playCount++;
-    if (playCount < maxPlays) {
+    if (playCount < 3) {
         video.currentTime = 0;
         video.play();
     } else {
-        // הסתרת הוידאו והצגת מסך סיום צבעוני
+        // מסתירים את הוידאו ומציגים את המסך הצבעוני
         video.style.display = "none";
         greeting.style.display = "none";
         ending.style.display = "flex";
