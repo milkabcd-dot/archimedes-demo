@@ -13,6 +13,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    font-family: Arial, sans-serif;
 }
 
 .video-container {
@@ -45,33 +46,40 @@ video {
     text-shadow: 3px 3px 12px rgba(0,0,0,0.8);
 }
 
-.overlay-text .sub {
-    font-size: 40px;
-    margin-top: 15px;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
-}
-
-/* מסך סיום */
+/* מסך סיום צבעוני */
 .ending-screen {
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.75);
+    background: rgba(0,0,0,0.85);
     display: none;
     justify-content: center;
     align-items: center;
     text-align: center;
-    color: white;
     border-radius: 12px;
 }
 
-.ending-screen h1 {
-    font-size: 60px;
+/* אפקט טקסט צבעוני זז */
+.colorful-text {
+    background: linear-gradient(to left, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow 5s ease infinite;
+    font-size: 70px;
+    font-weight: bold;
     margin: 0;
+}
+
+@keyframes rainbow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .ending-screen p {
     font-size: 36px;
     margin-top: 20px;
+    color: white;
 }
 </style>
 </head>
@@ -86,16 +94,14 @@ video {
 
     <div class="overlay-text" id="greeting">
         <div class="main">פורים שמח</div>
-        <div class="sub">ממילכה ברקו גרש</div>
     </div>
 
     <div class="ending-screen" id="ending">
         <div>
-            <h1>חג שמח!</h1>
+            <h1 class="colorful-text">חג שמח!</h1>
             <p>נתראה בשמחות 🎭</p>
         </div>
     </div>
-
 </div>
 
 <script>
@@ -104,17 +110,22 @@ const greeting = document.getElementById("greeting");
 const ending = document.getElementById("ending");
 
 let playCount = 0;
+const maxPlays = 3; // הגדרה ל-3 פעמים
 
 video.addEventListener("play", () => {
     greeting.style.display = "block";
+    // מחזיר את הברכה לאמצע אם היא הוסתרה
 });
 
 video.addEventListener("ended", () => {
     playCount++;
-    if (playCount < 4) {
+    if (playCount < maxPlays) {
         video.currentTime = 0;
         video.play();
     } else {
+        // הסתרת הוידאו והצגת מסך סיום צבעוני
+        video.style.display = "none";
+        greeting.style.display = "none";
         ending.style.display = "flex";
     }
 });
