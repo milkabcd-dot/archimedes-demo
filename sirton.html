@@ -35,6 +35,7 @@ video {
     transform: translate(-50%, -50%);
     color: white;
     text-align: center;
+    display: none; /* מוסתר בהתחלה */
     pointer-events: none;
 }
 
@@ -55,15 +56,24 @@ video {
 <body>
 
 <div class="video-container">
-    <video controls autoplay loop>
+    <video id="myVideo" controls>
         <source src="פורים 2026.mp4" type="video/mp4">
         הדפדפן שלך לא תומך בוידאו.
     </video>
-    <div class="overlay-text">
+    <div class="overlay-text" id="greeting">
         <div class="main">פורים שמח</div>
         <div class="sub">ממילכה ברקו גרש</div>
     </div>
 </div>
+
+<script>
+const video = document.getElementById("myVideo");
+const greeting = document.getElementById("greeting");
+
+video.addEventListener("play", () => {
+    greeting.style.display = "block";
+});
+</script>
 
 </body>
 </html>
