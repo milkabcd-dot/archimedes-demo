@@ -50,6 +50,29 @@ video {
     margin-top: 15px;
     text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
 }
+
+/* מסך סיום */
+.ending-screen {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    border-radius: 12px;
+}
+
+.ending-screen h1 {
+    font-size: 60px;
+    margin: 0;
+}
+
+.ending-screen p {
+    font-size: 36px;
+    margin-top: 20px;
+}
 </style>
 </head>
 
@@ -60,15 +83,25 @@ video {
         <source src="פורים 2026.mp4" type="video/mp4">
         הדפדפן שלך לא תומך בוידאו.
     </video>
+
     <div class="overlay-text" id="greeting">
         <div class="main">פורים שמח</div>
         <div class="sub">ממילכה ברקו גרש</div>
     </div>
+
+    <div class="ending-screen" id="ending">
+        <div>
+            <h1>חג שמח!</h1>
+            <p>נתראה בשמחות 🎭</p>
+        </div>
+    </div>
+
 </div>
 
 <script>
 const video = document.getElementById("myVideo");
 const greeting = document.getElementById("greeting");
+const ending = document.getElementById("ending");
 
 let playCount = 0;
 
@@ -78,9 +111,11 @@ video.addEventListener("play", () => {
 
 video.addEventListener("ended", () => {
     playCount++;
-    if (playCount < 2) {
+    if (playCount < 4) {
         video.currentTime = 0;
         video.play();
+    } else {
+        ending.style.display = "flex";
     }
 });
 </script>
