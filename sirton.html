@@ -35,7 +35,7 @@ video {
     transform: translate(-50%, -50%);
     color: white;
     text-align: center;
-    display: none; /* מוסתר בהתחלה */
+    display: none;
     pointer-events: none;
 }
 
@@ -70,8 +70,18 @@ video {
 const video = document.getElementById("myVideo");
 const greeting = document.getElementById("greeting");
 
+let playCount = 0;
+
 video.addEventListener("play", () => {
     greeting.style.display = "block";
+});
+
+video.addEventListener("ended", () => {
+    playCount++;
+    if (playCount < 2) {
+        video.currentTime = 0;
+        video.play();
+    }
 });
 </script>
 
