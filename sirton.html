@@ -14,50 +14,52 @@ body {
     align-items: center;
     height: 100vh;
     font-family: 'Segoe UI', Arial, sans-serif;
-    overflow: hidden;
 }
 
 .video-container {
     position: relative;
     width: 95%;
     max-width: 1000px;
+    border-radius: 15px;
+    overflow: hidden;
 }
 
 video {
     width: 100%;
     height: auto;
     display: block;
-    border-radius: 15px;
 }
 
-/* ברכה מרכזית גדולה */
+/* המילים פורים שמח - ברבע העליון */
 #greeting {
     position: absolute;
-    top: 50%;
+    top: 25%; /* רבע עליון של המסך */
     left: 50%;
-    transform: translate(-50%, -50%); /* ממרכז בדיוק לאמצע */
-    color: #fff;
-    font-size: clamp(60px, 15vw, 120px); /* גודל ענק שמתאים את עצמו למסך */
+    transform: translate(-50%, -50%);
+    /* טקסט צבעוני וגדול */
+    background: linear-gradient(45deg, #f3ec78, #af4261, #57d1ff, #62ff00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: clamp(50px, 12vw, 110px);
     font-weight: bold;
     text-align: center;
-    text-shadow: 4px 4px 20px rgba(0,0,0,0.9), 0 0 30px #ff00de; /* צבעוניות מסביב לטקסט */
+    filter: drop-shadow(3px 3px 8px rgba(0,0,0,0.9));
     white-space: nowrap;
     pointer-events: none;
     display: none;
     z-index: 10;
 }
 
-/* קרדיט קטן למטה */
+/* הקרדיט - קצת יותר גבוה מהתחתית */
 .credit {
     position: absolute;
-    bottom: 15px;
+    bottom: 60px; /* הועלה מ-20px ל-60px */
     left: 50%;
     transform: translateX(-50%);
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 16px;
-    background: rgba(0, 0, 0, 0.4);
-    padding: 2px 12px;
-    border-radius: 10px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.9);
     z-index: 20;
     pointer-events: none;
 }
@@ -92,9 +94,8 @@ video.addEventListener("ended", () => {
         video.currentTime = 0;
         video.play();
     } else {
-        // בסוף הפעם השלישית הוידאו פשוט עוצר על הפריים האחרון
         video.pause();
-        // הברכה נשארת מוצגת בגדול
+        // הסרטון נעצר בסיום הפעם השלישית והטקסטים נשארים
     }
 });
 </script>
