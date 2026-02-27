@@ -24,16 +24,19 @@ body {
     border-radius: 15px;
     overflow: hidden;
     background: #000;
+    /* הכרחי לאייפון כדי לאפשר הצבת אלמנטים מעל */
+    -webkit-transform: translateZ(0);
 }
 
 video {
     width: 100%;
     height: auto;
     display: block;
-    z-index: 1;
+    position: relative;
+    z-index: 1; /* הוידאו בשכבה התחתונה */
 }
 
-/* כותרת ברבע העליון */
+/* כותרת ברבע העליון - עם z-index גבוה */
 #greeting {
     position: absolute;
     top: 25%; 
@@ -42,27 +45,27 @@ video {
     background: linear-gradient(45deg, #f3ec78, #af4261, #57d1ff, #62ff00);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-size: clamp(50px, 12vw, 110px);
+    font-size: clamp(40px, 10vw, 100px);
     font-weight: bold;
     text-align: center;
     filter: drop-shadow(3px 3px 8px rgba(0,0,0,0.9));
     white-space: nowrap;
     pointer-events: none;
     display: none;
-    z-index: 10;
+    z-index: 100; /* מעל הוידאו */
 }
 
-/* שם בלבד - מורם יותר */
+/* שם בלבד - מורם */
 .credit {
     position: absolute;
-    bottom: 80px; /* הועלה עוד קצת */
+    bottom: 80px; 
     left: 50%;
     transform: translateX(-50%);
     color: white;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: bold;
     text-shadow: 2px 2px 5px rgba(0,0,0,0.9);
-    z-index: 20;
+    z-index: 100; /* מעל הוידאו */
     pointer-events: none;
 }
 
@@ -71,7 +74,7 @@ video {
     position: absolute;
     width: 10px;
     height: 10px;
-    z-index: 5;
+    z-index: 50; /* מעל הוידאו */
     top: -10px;
     animation: fall linear forwards;
 }
@@ -87,7 +90,7 @@ video {
 <body>
 
 <div class="video-container" id="container">
-    <video id="myVideo" controls>
+    <video id="myVideo" controls playsinline webkit-playsinline>
         <source src="פורים 2026.mp4" type="video/mp4">
         הדפדפן שלך לא תומך בוידאו.
     </video>
@@ -103,9 +106,8 @@ const container = document.getElementById("container");
 
 let playCount = 0;
 
-// פונקציה ליצירת קונפטי
 function createConfetti() {
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 40; i++) {
         const confetti = document.createElement('div');
         confetti.className = 'confetti';
         confetti.style.left = Math.random() * 100 + '%';
@@ -114,14 +116,13 @@ function createConfetti() {
         confetti.style.opacity = Math.random();
         container.appendChild(confetti);
         
-        // הסרה של האלמנט אחרי האנימציה
         setTimeout(() => confetti.remove(), 5000);
     }
 }
 
 video.addEventListener("play", () => {
     greeting.style.display = "block";
-    createConfetti(); // יוצר קונפטי כשהסרטון מתחיל
+    createConfetti();
 });
 
 video.addEventListener("ended", () => {
@@ -129,7 +130,7 @@ video.addEventListener("ended", () => {
     if (playCount < 3) {
         video.currentTime = 0;
         video.play();
-        createConfetti(); // עוד קונפטי בכל סבב
+        createConfetti();
     } else {
         video.pause();
     }
